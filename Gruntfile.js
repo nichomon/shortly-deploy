@@ -3,6 +3,13 @@ module.exports = function(grunt) {
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     concat: {
+      options: {
+        separator: ';'
+      },
+      dist: {
+        src: ['public/lib/**/*.js', 'public/client/**/*.js'],
+        dest: 'public/client/dist/concatedClient.js',
+      }
     },
 
     mochaTest: {
@@ -21,6 +28,13 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      my_target: {
+        files: [{
+          src: 'public/client/dist/concatedClient.js',
+          dest: 'public/client/dist/concatedClient.min.js'
+        }]
+      }
+
     },
 
     eslint: {
@@ -30,6 +44,7 @@ module.exports = function(grunt) {
     },
 
     cssmin: {
+      
     },
 
     watch: {
@@ -50,8 +65,7 @@ module.exports = function(grunt) {
     },
 
     shell: {
-      prodServer: {
-      }
+      prodServer: {}
     },
   });
 
@@ -64,8 +78,8 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-nodemon');
 
-  grunt.registerTask('server-dev', function (target) {
-    grunt.task.run([ 'nodemon', 'watch' ]);
+  grunt.registerTask('server-dev', function(target) {
+    grunt.task.run(['nodemon', 'watch']);
   });
 
   ////////////////////////////////////////////////////
@@ -76,14 +90,13 @@ module.exports = function(grunt) {
     'mochaTest'
   ]);
 
-  grunt.registerTask('build', [
-  ]);
+  grunt.registerTask('build', []);
 
   grunt.registerTask('upload', function(n) {
     if (grunt.option('prod')) {
       // add your production server task here
     } else {
-      grunt.task.run([ 'server-dev' ]);
+      grunt.task.run(['server-dev']);
     }
   });
 
